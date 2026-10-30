@@ -10,7 +10,10 @@ export const useWebSocket = () => {
   const clientRef = useRef<Client | null>(null);
 
   useEffect(() => {
-    const wsUrl = import.meta.env.VITE_WS_URL || 'http://localhost:8080/ws-hospital';
+    const wsUrl = import.meta.env.VITE_WS_URL || 
+      (typeof window !== 'undefined' && window.location.hostname !== 'localhost' && window.location.hostname !== '127.0.0.1'
+        ? 'https://hospital-emergency-backend.onrender.com/ws-hospital'
+        : 'http://localhost:8080/ws-hospital');
 
     const client = new Client({
       webSocketFactory: () => new SockJS(wsUrl),

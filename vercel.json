@@ -5,6 +5,14 @@
   "framework": "vite",
   "rewrites": [
     {
+      "source": "/api/:path*",
+      "destination": "https://hospital-emergency-backend.onrender.com/api/:path*"
+    },
+    {
+      "source": "/ws-hospital/:path*",
+      "destination": "https://hospital-emergency-backend.onrender.com/ws-hospital/:path*"
+    },
+    {
       "source": "/(.*)",
       "destination": "/index.html"
     }
