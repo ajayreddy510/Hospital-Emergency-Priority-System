@@ -20,7 +20,7 @@ app:
     secret: ${JWT_SECRET:super_secret_jwt_signing_key_for_hospital_emergency_priority_system_2026_min_256_bits_length}
     expiration-ms: 86400000 # 24 hours
   cors:
-    allowed-origins: ${FRONTEND_URL:http://localhost:5173}
+    allowed-origins: ${FRONTEND_URL:*,https://*.vercel.app,https://*.onrender.com,http://localhost:5173,http://localhost:3000}
   dev-seed:
     enabled: ${DEV_SEED_ENABLED:true}
 
