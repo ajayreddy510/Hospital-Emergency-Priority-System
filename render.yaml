@@ -2,7 +2,7 @@ services:
   - type: web
     name: hospital-emergency-backend
     runtime: docker
-    dockerfilePath: ./backend/Dockerfile
+    dockerfilePath: ./Dockerfile
     plan: free
     region: oregon
     healthCheckPath: /api/health
