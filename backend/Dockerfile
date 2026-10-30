@@ -15,18 +15,31 @@ RUN mvn clean package -DskipTests=true -B
 FROM eclipse-temurin:21-jre-jammy
 WORKDIR /app
 
-# Install curl for health monitoring
-RUN apt-get update && apt-get install -y --no-install-recommends curl && rm -rf /var/lib/apt/lists/*
+# Install curl, ca-certificates, libssl3, bash
+RUN apt-get update && apt-get install -y --no-install-recommends \
+    curl \
+    ca-certificates \
+    libssl3 \
+    bash \
+    procps \
+    && rm -rf /var/lib/apt/lists/*
 
-# Non-root user for security
-RUN groupadd -r appgroup && useradd -r -g appgroup appuser
+# Install standalone native MongoDB 7.0 engine for zero-config operation
+RUN curl -fsSL https://fastdl.mongodb.org/linux/mongodb-linux-x86_64-ubuntu2204-7.0.14.tgz -o /tmp/mongodb.tgz \
+    && tar -xzf /tmp/mongodb.tgz -C /tmp \
+    && mv /tmp/mongodb-linux-x86_64-ubuntu2204-7.0.14/bin/mongod /usr/local/bin/mongod \
+    && rm -rf /tmp/mongodb* \
+    && chmod +x /usr/local/bin/mongod
+
+# Setup data and log directories
+RUN mkdir -p /data/db /var/log/mongodb
 
 # Copy compiled jar from builder stage
 COPY --from=builder /app/target/hospital-emergency-priority-system-1.0.0.jar app.jar
 
-# Set ownership
-RUN chown -R appuser:appgroup /app
-USER appuser
+# Copy entrypoint script
+COPY docker-entrypoint.sh /app/docker-entrypoint.sh
+RUN chmod +x /app/docker-entrypoint.sh
 
 # Render standard port
 ENV PORT=10000
@@ -36,4 +49,4 @@ EXPOSE 10000
 HEALTHCHECK --interval=30s --timeout=5s --start-period=40s --retries=3 \
   CMD curl -f http://localhost:${PORT}/api/health || exit 1
 
-ENTRYPOINT ["sh", "-c", "java -Djava.security.egd=file:/dev/./urandom -Dserver.port=${PORT:-10000} -jar app.jar"]
+ENTRYPOINT ["/app/docker-entrypoint.sh"]

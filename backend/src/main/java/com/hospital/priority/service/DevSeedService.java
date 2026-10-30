@@ -53,6 +53,11 @@ public class DevSeedService implements CommandLineRunner {
     public void seedDatabase() {
         log.info("Seeding demo hospital data...");
 
+        if (userRepository.findByEmail("admin@hospital.org").isPresent()) {
+            log.info("Admin user already exists. Seed already performed.");
+            return;
+        }
+
         // 1. Seed Users
         User admin = User.builder()
                 .name("System Administrator")
