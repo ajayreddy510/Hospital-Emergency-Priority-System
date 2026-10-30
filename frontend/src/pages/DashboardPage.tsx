@@ -62,8 +62,8 @@ export const DashboardPage: React.FC = () => {
       eyebrow: 'Admissions Desk',
       title: 'Patient Admissions',
       description: 'Register patients, begin emergency intake, and check the live waiting queue.',
-      action: 'Register Emergency Intake',
-      actionPath: '/emergency/new',
+      action: 'Register New Patient',
+      actionPath: '/patient-register',
     },
   }[role];
   const showAnalytics = role === 'ADMIN' || role === 'DOCTOR';
@@ -140,13 +140,22 @@ export const DashboardPage: React.FC = () => {
           <h1 className="text-2xl font-bold text-slate-100">{roleDashboard.title}, {user?.name}</h1>
           <p className="text-xs text-slate-400 mt-1">{roleDashboard.description}</p>
         </div>
-        <button
-          onClick={() => navigate(roleDashboard.actionPath)}
-          className="hidden sm:flex items-center gap-2 px-4 py-2.5 rounded-xl bg-cyan-600 hover:bg-cyan-500 text-slate-950 font-bold text-xs shadow-lg shadow-cyan-950/50 transition-all"
-        >
-          <Activity className="w-4 h-4" />
-          <span>{roleDashboard.action}</span>
-        </button>
+        <div className="hidden sm:flex items-center gap-2.5">
+          <button
+            onClick={() => navigate('/patient-register')}
+            className="flex items-center gap-2 px-3.5 py-2.5 rounded-xl bg-slate-900 border border-cyan-500/40 hover:bg-slate-800 text-cyan-400 font-bold text-xs shadow-md transition-all"
+          >
+            <Users className="w-4 h-4" />
+            <span>Register Patient</span>
+          </button>
+          <button
+            onClick={() => navigate(roleDashboard.actionPath)}
+            className="flex items-center gap-2 px-4 py-2.5 rounded-xl bg-cyan-600 hover:bg-cyan-500 text-slate-950 font-bold text-xs shadow-lg shadow-cyan-950/50 transition-all"
+          >
+            <Activity className="w-4 h-4" />
+            <span>{roleDashboard.action}</span>
+          </button>
+        </div>
       </div>
 
       {/* KPI Stats Grid */}

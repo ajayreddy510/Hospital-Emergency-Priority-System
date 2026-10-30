@@ -15,6 +15,7 @@ import {
   Settings,
   LogOut,
   Radio,
+  UserPlus,
 } from 'lucide-react';
 
 export const Sidebar: React.FC = () => {
@@ -24,8 +25,9 @@ export const Sidebar: React.FC = () => {
   const navItems = [
     { label: 'Dashboard', path: '/dashboard', icon: LayoutDashboard, roles: ['ADMIN', 'DOCTOR', 'NURSE', 'RECEPTIONIST'] },
     { label: 'Emergency Queue', path: '/queue', icon: Activity, roles: ['ADMIN', 'DOCTOR', 'NURSE', 'RECEPTIONIST'], badge: 'LIVE' },
+    { label: 'Register Patient', path: '/patient-register', icon: UserPlus, roles: ['ADMIN', 'DOCTOR', 'NURSE', 'RECEPTIONIST'] },
+    { label: 'Patient Management', path: '/patients', icon: Users, roles: ['ADMIN', 'DOCTOR', 'NURSE', 'RECEPTIONIST'] },
     { label: 'New Intake', path: '/emergency/new', icon: AlertCircle, roles: ['ADMIN', 'NURSE', 'RECEPTIONIST'] },
-    { label: 'Patients Directory', path: '/patients', icon: Users, roles: ['ADMIN', 'DOCTOR', 'NURSE', 'RECEPTIONIST'] },
     { label: 'Doctors Workload', path: '/doctors', icon: Stethoscope, roles: ['ADMIN', 'DOCTOR', 'NURSE'] },
     { label: 'Clinical Treatments', path: '/treatments', icon: ClipboardList, roles: ['ADMIN', 'DOCTOR'] },
     { label: 'Reports & Analytics', path: '/reports', icon: FileText, roles: ['ADMIN', 'DOCTOR'] },

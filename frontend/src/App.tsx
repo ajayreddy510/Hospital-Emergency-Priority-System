@@ -14,6 +14,7 @@ import { DashboardPage } from './pages/DashboardPage';
 import { QueuePage } from './pages/QueuePage';
 import { EmergencyNewPage } from './pages/EmergencyNewPage';
 import { PatientsPage } from './pages/PatientsPage';
+import { PatientRegistrationPage } from './pages/PatientRegistrationPage';
 import { PatientProfilePage } from './pages/PatientProfilePage';
 import { DoctorsPage } from './pages/DoctorsPage';
 import { TreatmentsPage } from './pages/TreatmentsPage';
@@ -82,6 +83,7 @@ export const AppContent: React.FC = () => {
       <Route path="/" element={<LandingPage />} />
       <Route path="/login" element={<LoginPage />} />
       <Route path="/register" element={<RegisterPage />} />
+      <Route path="/patient-register" element={<PatientRegistrationPage />} />
 
       {/* Protected Command Center Routes */}
       <Route
@@ -116,8 +118,18 @@ export const AppContent: React.FC = () => {
         path="/patients"
         element={
           <ProtectedRoute allowedRoles={['ADMIN', 'DOCTOR', 'NURSE', 'RECEPTIONIST']}>
-            <AppShell title="Patient Directory">
+            <AppShell title="Patient Management Dashboard">
               <PatientsPage />
+            </AppShell>
+          </ProtectedRoute>
+        }
+      />
+      <Route
+        path="/patients/register"
+        element={
+          <ProtectedRoute allowedRoles={['ADMIN', 'DOCTOR', 'NURSE', 'RECEPTIONIST']}>
+            <AppShell title="Patient Registration & Triage Intake">
+              <PatientRegistrationPage />
             </AppShell>
           </ProtectedRoute>
         }

@@ -68,14 +68,17 @@ public class SecurityConfig {
                         .requestMatchers("/api/dev/seed").permitAll()
                         .requestMatchers(HttpMethod.GET, "/api/dashboard/**").permitAll()
                         .requestMatchers(HttpMethod.GET, "/api/queue/**").permitAll()
+                        .requestMatchers(HttpMethod.POST, "/api/patients").permitAll()
+                        .requestMatchers(HttpMethod.POST, "/api/patients/triage-evaluate").permitAll()
 
                         // Role-based restrictions
                         .requestMatchers("/api/audit-logs/**").hasRole("ADMIN")
                         .requestMatchers(HttpMethod.POST, "/api/doctors/**").hasRole("ADMIN")
                         .requestMatchers(HttpMethod.PATCH, "/api/doctors/*/status").hasRole("ADMIN")
                         .requestMatchers(HttpMethod.DELETE, "/api/patients/**").hasRole("ADMIN")
-                        .requestMatchers(HttpMethod.POST, "/api/patients/**").hasAnyRole("ADMIN", "NURSE", "RECEPTIONIST")
-                        .requestMatchers(HttpMethod.PUT, "/api/patients/**").hasAnyRole("ADMIN", "NURSE", "RECEPTIONIST")
+                        .requestMatchers(HttpMethod.GET, "/api/patients/**").hasAnyRole("ADMIN", "DOCTOR", "NURSE", "RECEPTIONIST")
+                        .requestMatchers(HttpMethod.PUT, "/api/patients/**").hasAnyRole("ADMIN", "DOCTOR", "NURSE", "RECEPTIONIST")
+                        .requestMatchers(HttpMethod.PATCH, "/api/patients/*/status").hasAnyRole("ADMIN", "DOCTOR", "NURSE", "RECEPTIONIST")
 
                         .requestMatchers(HttpMethod.POST, "/api/emergency-cases").hasAnyRole("ADMIN", "NURSE", "RECEPTIONIST")
                         .requestMatchers(HttpMethod.PATCH, "/api/emergency-cases/*/status").hasAnyRole("ADMIN", "DOCTOR", "NURSE")

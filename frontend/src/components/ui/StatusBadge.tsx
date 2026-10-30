@@ -15,6 +15,10 @@ export const StatusBadge: React.FC<StatusBadgeProps> = ({ status }) => {
       case 'IN_TREATMENT':
       case 'IN_PROGRESS':
         return 'bg-cyan-950/40 text-cyan-400 border-cyan-500/30';
+      case 'ADMITTED':
+        return 'bg-indigo-950/40 text-indigo-400 border-indigo-500/30';
+      case 'DISCHARGED':
+        return 'bg-teal-950/40 text-teal-400 border-teal-500/30';
       case 'COMPLETED':
       case 'AVAILABLE':
         return 'bg-emerald-950/40 text-emerald-400 border-emerald-500/30';

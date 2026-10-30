@@ -1,5 +1,7 @@
 package com.hospital.priority.dto;
 
+import com.hospital.priority.model.CaseStatus;
+import com.hospital.priority.model.EmergencyLevel;
 import com.hospital.priority.model.Patient;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.Min;
@@ -37,7 +39,30 @@ public class PatientDto {
 
     private String address;
     private String bloodGroup;
+
+    // --- Medical Information ---
+    private String chiefComplaint;
+    private String symptoms;
+    private String existingConditions;
     private List<String> allergies;
+    private String currentMedications;
+    private String medicalHistory;
+
+    // --- Emergency Assessment / Vitals ---
+    private Double temperature;
+    private String bloodPressure;
+    private Integer heartRate;
+    private Integer respiratoryRate;
+    private Double oxygenSaturation;
+    private Instant arrivalTime;
+
+    // --- Priority & Status ---
+    private EmergencyLevel emergencyLevel;
+    private Integer priorityScore;
+    private CaseStatus status;
+    private String assignedDoctorId;
+    private String notes;
+
     private Patient.EmergencyContact emergencyContact;
 
     private Instant createdAt;

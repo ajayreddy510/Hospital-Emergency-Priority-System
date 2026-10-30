@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { useNavigate, Link } from 'react-router-dom';
 import { useAuth } from '../hooks/useAuth';
 import { toast } from 'sonner';
-import { Activity, KeyRound, Mail, ArrowRight, ShieldCheck } from 'lucide-react';
+import { Activity, KeyRound, Mail, ArrowRight, HeartPulse, UserPlus } from 'lucide-react';
 
 export const LoginPage: React.FC = () => {
   const { login } = useAuth();
@@ -44,8 +44,29 @@ export const LoginPage: React.FC = () => {
           <p className="text-xs text-slate-400">Hospital Emergency Priority System Command Center</p>
         </div>
 
-        {/* Login Card */}
+        {/* Separate Patient Registration Option Card */}
+        <div className="p-4 rounded-2xl bg-gradient-to-r from-cyan-950/70 via-slate-900 to-cyan-950/70 border border-cyan-500/40 text-center space-y-2.5 shadow-xl shadow-cyan-950/30">
+          <div className="flex items-center justify-center gap-2 text-cyan-400 font-bold text-xs uppercase tracking-wider">
+            <HeartPulse className="w-4 h-4 text-cyan-400 animate-pulse" />
+            <span>Emergency Patient Intake</span>
+          </div>
+          <p className="text-[11px] text-slate-400">
+            Admit an incoming patient with full clinical assessment and automatic triage protocol classification.
+          </p>
+          <Link
+            to="/patient-register"
+            className="inline-flex items-center justify-center gap-2 w-full py-2.5 px-4 rounded-xl bg-cyan-600 hover:bg-cyan-500 text-slate-950 font-bold text-xs transition-colors shadow-lg shadow-cyan-950/50"
+          >
+            <UserPlus className="w-4 h-4" />
+            <span>New Patient Registration</span>
+          </Link>
+        </div>
+
+        {/* Staff Login Card */}
         <div className="p-6 rounded-2xl glass-panel border border-slate-800 space-y-4">
+          <div className="border-b border-slate-800 pb-2">
+            <h3 className="text-xs font-bold text-slate-300 uppercase tracking-wider">Hospital Staff Sign In</h3>
+          </div>
           <form onSubmit={handleSubmit} className="space-y-4">
             <div>
               <label className="block text-xs font-medium text-slate-300 mb-1.5">Hospital Staff Email</label>
@@ -80,7 +101,7 @@ export const LoginPage: React.FC = () => {
             <button
               type="submit"
               disabled={isLoading}
-              className="w-full bg-cyan-600 hover:bg-cyan-500 text-slate-950 font-bold py-2.5 rounded-lg text-xs transition-colors flex items-center justify-center gap-2 shadow-lg shadow-cyan-950/50 disabled:opacity-50"
+              className="w-full bg-slate-800 hover:bg-slate-700 text-slate-100 font-bold py-2.5 rounded-lg text-xs transition-colors flex items-center justify-center gap-2 border border-slate-700 disabled:opacity-50"
             >
               {isLoading ? 'Authenticating...' : 'Sign In to Command Center'}
               <ArrowRight className="w-4 h-4" />
@@ -127,10 +148,11 @@ export const LoginPage: React.FC = () => {
           </div>
         </div>
 
+        {/* Separate Staff Registration Option */}
         <p className="text-center text-xs text-slate-500">
-          Need a new staff account?{' '}
-          <Link to="/register" className="text-cyan-400 hover:underline">
-            Register here
+          Hospital staff member without an account?{' '}
+          <Link to="/register" className="text-slate-400 hover:text-cyan-400 underline">
+            Register Staff Account
           </Link>
         </p>
       </div>

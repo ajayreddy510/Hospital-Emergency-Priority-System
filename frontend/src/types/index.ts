@@ -1,8 +1,24 @@
 export type Role = 'ADMIN' | 'DOCTOR' | 'NURSE' | 'RECEPTIONIST';
 
-export type EmergencyLevel = 'CRITICAL' | 'HIGH' | 'MEDIUM' | 'LOW';
+export type EmergencyLevel =
+  | 'LEVEL_1_RESUSCITATION'
+  | 'LEVEL_2_EMERGENCY'
+  | 'LEVEL_3_URGENT'
+  | 'LEVEL_4_LESS_URGENT'
+  | 'LEVEL_5_NON_URGENT'
+  | 'CRITICAL'
+  | 'HIGH'
+  | 'MEDIUM'
+  | 'LOW';
 
-export type CaseStatus = 'WAITING' | 'IN_TRIAGE' | 'IN_TREATMENT' | 'COMPLETED' | 'CANCELLED';
+export type CaseStatus =
+  | 'WAITING'
+  | 'IN_TRIAGE'
+  | 'IN_TREATMENT'
+  | 'ADMITTED'
+  | 'DISCHARGED'
+  | 'COMPLETED'
+  | 'CANCELLED';
 
 export type DoctorAvailability = 'AVAILABLE' | 'BUSY' | 'OFFLINE';
 
@@ -31,10 +47,40 @@ export interface Patient {
   email?: string;
   address?: string;
   bloodGroup?: string;
+
+  // Medical Information
+  chiefComplaint?: string;
+  symptoms?: string;
+  existingConditions?: string;
   allergies?: string[];
+  currentMedications?: string;
+  medicalHistory?: string;
+
+  // Emergency Assessment / Vitals
+  temperature?: number;
+  bloodPressure?: string;
+  heartRate?: number;
+  respiratoryRate?: number;
+  oxygenSaturation?: number;
+  arrivalTime?: string;
+
+  // Emergency Priority & Status
+  emergencyLevel?: EmergencyLevel;
+  priorityScore?: number;
+  status?: CaseStatus;
+  assignedDoctorId?: string;
+  notes?: string;
+
   emergencyContact?: EmergencyContact;
   createdAt?: string;
   updatedAt?: string;
+}
+
+export interface TriageAssessmentResult {
+  recommendedLevel: EmergencyLevel;
+  priorityScore: number;
+  clinicalRationale: string[];
+  disclaimer: string;
 }
 
 export interface Doctor {

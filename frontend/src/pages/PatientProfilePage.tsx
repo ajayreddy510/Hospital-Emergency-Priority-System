@@ -5,6 +5,7 @@ import { patientService } from '../services/patientService';
 import { treatmentService } from '../services/treatmentService';
 import { LoadingSkeleton } from '../components/ui/LoadingSkeleton';
 import { StatusBadge } from '../components/ui/StatusBadge';
+import { EmergencyBadge } from '../components/ui/EmergencyBadge';
 import {
   User,
   Phone,
@@ -82,7 +83,9 @@ export const PatientProfilePage: React.FC = () => {
           </div>
         </div>
 
-        <div className="flex items-center gap-3">
+        <div className="flex flex-wrap items-center gap-3">
+          <EmergencyBadge level={patient.emergencyLevel} score={patient.priorityScore} />
+          <StatusBadge status={patient.status || 'WAITING'} />
           <button
             onClick={() => navigate(`/emergency/new?patientId=${patient.patientId}`)}
             className="bg-cyan-600 hover:bg-cyan-500 text-slate-950 px-4 py-2 rounded-xl font-bold text-xs transition-colors flex items-center gap-2 shadow-lg shadow-cyan-950/50"
@@ -90,6 +93,85 @@ export const PatientProfilePage: React.FC = () => {
             <HeartPulse className="w-4 h-4" />
             <span>New Emergency Case</span>
           </button>
+        </div>
+      </div>
+
+      {/* Clinical Assessment & Vital Signs */}
+      <div className="p-6 rounded-2xl glass-panel border border-slate-800 space-y-4">
+        <h3 className="text-sm font-bold text-slate-200 flex items-center gap-2">
+          <HeartPulse className="w-4 h-4 text-cyan-400" />
+          <span>Emergency Assessment Vitals & Medical Information</span>
+        </h3>
+
+        {/* Vitals Grid */}
+        <div className="grid grid-cols-2 sm:grid-cols-5 gap-3 text-xs">
+          <div className="p-3 rounded-xl bg-slate-900 border border-slate-800">
+            <span className="text-[10px] text-slate-500 block">Body Temperature</span>
+            <span className="text-sm font-mono font-semibold text-slate-200">
+              {patient.temperature ? `${patient.temperature}°F` : 'Not recorded'}
+            </span>
+          </div>
+          <div className="p-3 rounded-xl bg-slate-900 border border-slate-800">
+            <span className="text-[10px] text-slate-500 block">Blood Pressure</span>
+            <span className="text-sm font-mono font-semibold text-slate-200">
+              {patient.bloodPressure || 'Not recorded'}
+            </span>
+          </div>
+          <div className="p-3 rounded-xl bg-slate-900 border border-slate-800">
+            <span className="text-[10px] text-slate-500 block">Heart Rate</span>
+            <span className="text-sm font-mono font-semibold text-slate-200">
+              {patient.heartRate ? `${patient.heartRate} bpm` : 'Not recorded'}
+            </span>
+          </div>
+          <div className="p-3 rounded-xl bg-slate-900 border border-slate-800">
+            <span className="text-[10px] text-slate-500 block">Respiratory Rate</span>
+            <span className="text-sm font-mono font-semibold text-slate-200">
+              {patient.respiratoryRate ? `${patient.respiratoryRate}/min` : 'Not recorded'}
+            </span>
+          </div>
+          <div className="p-3 rounded-xl bg-slate-900 border border-slate-800">
+            <span className="text-[10px] text-slate-500 block">Oxygen Saturation (SpO2)</span>
+            <span className="text-sm font-mono font-semibold text-slate-200">
+              {patient.oxygenSaturation ? `${patient.oxygenSaturation}%` : 'Not recorded'}
+            </span>
+          </div>
+        </div>
+
+        {/* Clinical History & Complaints */}
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-4 text-xs pt-2">
+          <div className="p-4 rounded-xl bg-slate-900/60 border border-slate-800 space-y-2">
+            <div>
+              <span className="text-slate-400 font-semibold block text-[11px]">Chief Complaint / Reason for Visit</span>
+              <p className="text-slate-200 mt-1">{patient.chiefComplaint || 'Emergency intake encounter'}</p>
+            </div>
+            {patient.symptoms && (
+              <div>
+                <span className="text-slate-400 font-semibold block text-[11px]">Presenting Symptoms</span>
+                <p className="text-slate-300 mt-1">{patient.symptoms}</p>
+              </div>
+            )}
+          </div>
+
+          <div className="p-4 rounded-xl bg-slate-900/60 border border-slate-800 space-y-2">
+            {patient.existingConditions && (
+              <div>
+                <span className="text-slate-400 font-semibold block text-[11px]">Existing Medical Conditions</span>
+                <p className="text-slate-300 mt-0.5">{patient.existingConditions}</p>
+              </div>
+            )}
+            {patient.currentMedications && (
+              <div>
+                <span className="text-slate-400 font-semibold block text-[11px]">Current Medications</span>
+                <p className="text-slate-300 mt-0.5">{patient.currentMedications}</p>
+              </div>
+            )}
+            {patient.medicalHistory && (
+              <div>
+                <span className="text-slate-400 font-semibold block text-[11px]">Medical History & Surgeries</span>
+                <p className="text-slate-300 mt-0.5">{patient.medicalHistory}</p>
+              </div>
+            )}
+          </div>
         </div>
       </div>
 
@@ -153,6 +235,85 @@ export const PatientProfilePage: React.FC = () => {
           ) : (
             <p className="text-xs text-slate-500 italic">No emergency contact info provided.</p>
           )}
+        </div>
+      </div>
+
+      {/* Clinical Assessment & Vital Signs */}
+      <div className="p-6 rounded-2xl glass-panel border border-slate-800 space-y-4">
+        <h3 className="text-sm font-bold text-slate-200 flex items-center gap-2">
+          <HeartPulse className="w-4 h-4 text-cyan-400" />
+          <span>Emergency Assessment Vitals & Medical Information</span>
+        </h3>
+
+        {/* Vitals Grid */}
+        <div className="grid grid-cols-2 sm:grid-cols-5 gap-3 text-xs">
+          <div className="p-3 rounded-xl bg-slate-900 border border-slate-800">
+            <span className="text-[10px] text-slate-500 block">Body Temperature</span>
+            <span className="text-sm font-mono font-semibold text-slate-200">
+              {patient.temperature ? `${patient.temperature}°F` : 'Not recorded'}
+            </span>
+          </div>
+          <div className="p-3 rounded-xl bg-slate-900 border border-slate-800">
+            <span className="text-[10px] text-slate-500 block">Blood Pressure</span>
+            <span className="text-sm font-mono font-semibold text-slate-200">
+              {patient.bloodPressure || 'Not recorded'}
+            </span>
+          </div>
+          <div className="p-3 rounded-xl bg-slate-900 border border-slate-800">
+            <span className="text-[10px] text-slate-500 block">Heart Rate</span>
+            <span className="text-sm font-mono font-semibold text-slate-200">
+              {patient.heartRate ? `${patient.heartRate} bpm` : 'Not recorded'}
+            </span>
+          </div>
+          <div className="p-3 rounded-xl bg-slate-900 border border-slate-800">
+            <span className="text-[10px] text-slate-500 block">Respiratory Rate</span>
+            <span className="text-sm font-mono font-semibold text-slate-200">
+              {patient.respiratoryRate ? `${patient.respiratoryRate}/min` : 'Not recorded'}
+            </span>
+          </div>
+          <div className="p-3 rounded-xl bg-slate-900 border border-slate-800">
+            <span className="text-[10px] text-slate-500 block">Oxygen Saturation (SpO2)</span>
+            <span className="text-sm font-mono font-semibold text-slate-200">
+              {patient.oxygenSaturation ? `${patient.oxygenSaturation}%` : 'Not recorded'}
+            </span>
+          </div>
+        </div>
+
+        {/* Clinical History & Complaints */}
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-4 text-xs pt-2">
+          <div className="p-4 rounded-xl bg-slate-900/60 border border-slate-800 space-y-2">
+            <div>
+              <span className="text-slate-400 font-semibold block text-[11px]">Chief Complaint / Reason for Visit</span>
+              <p className="text-slate-200 mt-1">{patient.chiefComplaint || 'Emergency intake encounter'}</p>
+            </div>
+            {patient.symptoms && (
+              <div>
+                <span className="text-slate-400 font-semibold block text-[11px]">Presenting Symptoms</span>
+                <p className="text-slate-300 mt-1">{patient.symptoms}</p>
+              </div>
+            )}
+          </div>
+
+          <div className="p-4 rounded-xl bg-slate-900/60 border border-slate-800 space-y-2">
+            {patient.existingConditions && (
+              <div>
+                <span className="text-slate-400 font-semibold block text-[11px]">Existing Medical Conditions</span>
+                <p className="text-slate-300 mt-0.5">{patient.existingConditions}</p>
+              </div>
+            )}
+            {patient.currentMedications && (
+              <div>
+                <span className="text-slate-400 font-semibold block text-[11px]">Current Medications</span>
+                <p className="text-slate-300 mt-0.5">{patient.currentMedications}</p>
+              </div>
+            )}
+            {patient.medicalHistory && (
+              <div>
+                <span className="text-slate-400 font-semibold block text-[11px]">Medical History & Surgeries</span>
+                <p className="text-slate-300 mt-0.5">{patient.medicalHistory}</p>
+              </div>
+            )}
+          </div>
         </div>
       </div>
 

@@ -27,12 +27,14 @@ public class Patient {
     @Indexed(unique = true)
     private String patientId;
 
+    @Indexed
     private String name;
 
     private Integer age;
 
     private String gender;
 
+    @Indexed
     private String phone;
 
     private String email;
@@ -41,9 +43,49 @@ public class Patient {
 
     private String bloodGroup;
 
+    // --- Medical Information ---
+    private String chiefComplaint;
+
+    private String symptoms;
+
+    private String existingConditions;
+
     @Builder.Default
     private List<String> allergies = new ArrayList<>();
 
+    private String currentMedications;
+
+    private String medicalHistory;
+
+    // --- Emergency Assessment / Vitals ---
+    private Double temperature;          // Body Temperature (°F or °C)
+
+    private String bloodPressure;        // Blood Pressure (e.g. 120/80)
+
+    private Integer heartRate;           // Heart Rate (bpm)
+
+    private Integer respiratoryRate;     // Respiratory Rate (breaths/min)
+
+    private Double oxygenSaturation;     // SpO2 (%)
+
+    private Instant arrivalTime;         // Arrival Date and Time
+
+    // --- Emergency Priority & Status ---
+    @Indexed
+    @Builder.Default
+    private EmergencyLevel emergencyLevel = EmergencyLevel.LEVEL_3_URGENT;
+
+    private Integer priorityScore;
+
+    @Indexed
+    @Builder.Default
+    private CaseStatus status = CaseStatus.WAITING;
+
+    private String assignedDoctorId;
+
+    private String notes;
+
+    // --- Emergency Contact ---
     private EmergencyContact emergencyContact;
 
     @CreatedDate

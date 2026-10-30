@@ -1,5 +1,5 @@
 import { api } from './api';
-import { ApiResponse, Patient } from '../types';
+import { ApiResponse, Patient, TriageAssessmentResult } from '../types';
 
 export interface PaginatedResponse<T> {
   content: T[];
@@ -10,9 +10,20 @@ export interface PaginatedResponse<T> {
 }
 
 export const patientService = {
-  getPatients: async (page = 0, size = 10, search = ''): Promise<PaginatedResponse<Patient>> => {
+  getPatients: async (
+    page = 0,
+    size = 10,
+    search = '',
+    priority?: string,
+    status?: string
+  ): Promise<PaginatedResponse<Patient>> => {
+    const params: Record<string, any> = { page, size };
+    if (search && search.trim()) params.search = search.trim();
+    if (priority && priority !== 'ALL') params.priority = priority;
+    if (status && status !== 'ALL') params.status = status;
+
     const res = await api.get<ApiResponse<PaginatedResponse<Patient>>>('/patients', {
-      params: { page, size, search },
+      params,
     });
     return res.data.data;
   },
@@ -32,7 +43,27 @@ export const patientService = {
     return res.data.data;
   },
 
+  updatePatientStatus: async (id: string, status: string, notes?: string): Promise<Patient> => {
+    const res = await api.patch<ApiResponse<Patient>>(`/patients/${id}/status`, null, {
+      params: { status, notes },
+    });
+    return res.data.data;
+  },
+
   deletePatient: async (id: string): Promise<void> => {
     await api.delete(`/patients/${id}`);
+  },
+
+  evaluateTriage: async (data: {
+    temperature?: number;
+    bloodPressure?: string;
+    heartRate?: number;
+    respiratoryRate?: number;
+    oxygenSaturation?: number;
+    chiefComplaint?: string;
+    symptoms?: string;
+  }): Promise<TriageAssessmentResult> => {
+    const res = await api.post<ApiResponse<TriageAssessmentResult>>('/patients/triage-evaluate', data);
+    return res.data.data;
   },
 };

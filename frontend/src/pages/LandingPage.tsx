@@ -13,6 +13,7 @@ import {
   Radio,
   Clock,
   CheckCircle2,
+  UserPlus,
 } from 'lucide-react';
 
 export const LandingPage: React.FC = () => {
@@ -34,9 +35,16 @@ export const LandingPage: React.FC = () => {
           </div>
         </div>
 
-        <div className="flex items-center gap-4">
+        <div className="flex items-center gap-3">
+          <Link
+            to="/patient-register"
+            className="text-xs font-semibold text-cyan-400 hover:text-cyan-300 transition-colors flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-cyan-950/60 border border-cyan-500/30"
+          >
+            <UserPlus className="w-3.5 h-3.5" />
+            <span>Patient Registration</span>
+          </Link>
           <Link to="/login" className="text-xs font-semibold text-slate-300 hover:text-slate-100 transition-colors">
-            Sign In
+            Staff Sign In
           </Link>
           <button
             onClick={() => navigate('/dashboard')}
@@ -64,6 +72,13 @@ export const LandingPage: React.FC = () => {
         </p>
 
         <div className="mt-10 flex flex-wrap items-center justify-center gap-4">
+          <button
+            onClick={() => navigate('/patient-register')}
+            className="bg-emerald-600 hover:bg-emerald-500 text-slate-950 px-6 py-3 rounded-xl font-bold text-sm transition-all flex items-center gap-2 shadow-xl shadow-emerald-950/50"
+          >
+            <UserPlus className="w-4 h-4" />
+            <span>Emergency Patient Registration</span>
+          </button>
           <button
             onClick={() => navigate('/dashboard')}
             className="bg-cyan-600 hover:bg-cyan-500 text-slate-950 px-6 py-3 rounded-xl font-bold text-sm transition-all flex items-center gap-2 shadow-xl shadow-cyan-950/50"
