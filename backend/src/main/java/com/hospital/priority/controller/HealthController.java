@@ -3,16 +3,32 @@ package com.hospital.priority.controller;
 import com.hospital.priority.dto.ApiResponse;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.util.Map;
 
 @RestController
-@RequestMapping("/api")
 public class HealthController {
 
-    @GetMapping
+    @GetMapping("/")
+    public ResponseEntity<ApiResponse<Map<String, Object>>> getRoot() {
+        return ResponseEntity.ok(ApiResponse.success(
+                Map.of(
+                        "system", "Hospital Emergency Priority System API",
+                        "status", "HEALTHY",
+                        "version", "1.0.0",
+                        "endpoints", Map.of(
+                                "health", "/api/health",
+                                "authLogin", "/api/auth/login",
+                                "queue", "/api/queue",
+                                "dashboard", "/api/dashboard/summary"
+                        )
+                ),
+                "Hospital Emergency Priority System Backend is online"
+        ));
+    }
+
+    @GetMapping("/api")
     public ResponseEntity<ApiResponse<Map<String, String>>> getApiRoot() {
         return ResponseEntity.ok(ApiResponse.success(
                 Map.of(
@@ -25,7 +41,7 @@ public class HealthController {
         ));
     }
 
-    @GetMapping("/health")
+    @GetMapping("/api/health")
     public ResponseEntity<ApiResponse<String>> getHealth() {
         return ResponseEntity.ok(ApiResponse.success("HEALTHY", "System operational"));
     }

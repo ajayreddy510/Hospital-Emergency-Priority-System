@@ -38,12 +38,16 @@ public class DevSeedService implements CommandLineRunner {
             return;
         }
 
-        if (userRepository.count() > 0) {
-            log.info("Database already populated. Skipping initial seed.");
-            return;
-        }
+        try {
+            if (userRepository.count() > 0) {
+                log.info("Database already populated. Skipping initial seed.");
+                return;
+            }
 
-        seedDatabase();
+            seedDatabase();
+        } catch (Exception e) {
+            log.warn("Database initial seeding encountered an issue (app will continue): {}", e.getMessage());
+        }
     }
 
     public void seedDatabase() {
